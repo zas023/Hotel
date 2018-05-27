@@ -1,12 +1,14 @@
 <view class="container container1">
   <!--轮播图-->
-  <swiper class="swiper" indicator-dots="true" autoplay="true" interval="2000" duration="1000" circular="true">
+   <swiper class="swiper" indicator-dots="true" autoplay="true" interval="2000" duration="1000" circular="true"
+   wx:if="{{room.imgs.length>=2}}">
   <block wx:for="{{room.imgs}}" wx:key="itemId">
     <swiper-item>
       <image src="{{item}}" class="slide-image"/>
     </swiper-item>
   </block>
-  </swiper>
+  </swiper> 
+  <image src="{{room.imgs}}" class="slide-image" wx:if="{{room.imgs.length<2}}"></image>
   <view class="info">
     <view class="left">
       <view class="left_name">{{room.name}}</view>
