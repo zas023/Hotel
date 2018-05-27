@@ -17,8 +17,6 @@ Page({
     // 查询所有数据
     query.find({
       success: function (results) {
-        console.log(results);
-        // 循环处理查询到的数据
         that.setData({
           hotels: results,
         })
@@ -32,7 +30,6 @@ Page({
     // 查询所有数据
     query.find({
       success: function (results) {
-        // 循环处理查询到的数据
         that.setData({
           rooms: results
         })
