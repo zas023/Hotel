@@ -1,0 +1,173 @@
+.swiper {
+  height: 400rpx;
+}
+.container1 {
+  width: 96%;
+  margin: 0 auto;
+}
+image {
+  width: 100%;
+}
+.info {
+  width: 100%;
+  overflow: hidden;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+.left_name {
+  font-size: 35rpx;
+  font-weight: bolder;
+  padding: 10rpx 0;
+}
+.left_label {
+  font-size: 30rpx;
+  color: #fe3131;
+  padding: 8rpx 0;
+}
+.right_price {
+  color: #fe3131;
+  font-weight: bolder;
+}
+button {
+  background: #fe3131;
+  color: white;
+}
+/*-----*/
+.commodity_screen {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  opacity: 0.4;
+  overflow: hidden;
+  z-index: 1000;
+  color: #fff;
+}
+
+.commodity_attr_box {
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 2000;
+  padding-top: 20rpx;
+  background: #fff;
+}
+.predetail {
+  margin: 30rpx auto;
+  border:1rpx solid lightgray;
+  color:gray;
+  border-radius:10rpx;
+}
+.pre_input {
+  width: 100%;
+  color:gray;
+}
+.name {
+  width: 96%;
+  margin: 0 auto;
+  font-weight: bolder;
+}
+.bottom {
+  width: 96%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.bottom_price {
+  float: left;
+  color: #fe3131;
+  font-size: 60rpx;
+  margin-top:10rpx;
+
+}
+.button_bottom {
+  float: right;
+  margin-bottom: 10rpx;
+}
+.font_style {
+  font-size: 35rpx;
+  font-weight: bolder;
+}
+.xueyuan_top_left {
+  float: left;
+}
+.xueyuan_top_right {
+  float: right;
+}
+.title {
+  overflow: hidden;
+  width: 96%;
+  margin: 0 auto;
+}
+.tx {
+  padding: 20rpx 0;
+  margin: 0 auto;
+  color: #fe3131;
+  font-size: 30rpx;
+  font-weight: bolder;
+}
+input {
+  font-size:30rpx;
+margin-left:10rpx;
+}
+/*弹窗*/
+.total_price {
+  color: #fe3131;
+  font-size: 40rpx;
+  text-align: center;
+  padding: 20rpx 0;
+  font-weight:bolder;
+}
+.button_pay {
+  background: #fe3131;
+  color: white;
+}
+.hotel_bq {
+  margin: 20rpx auto;
+  font-size: 30rpx;
+}
+.spaninfo {
+  color: #fe3131;
+  margin-left: 10rpx;
+  font-weight: bolder;
+}
+.clean {
+  overflow: hidden;
+}
+.inlineblock {
+  display: inline-block;
+  width: 48%;
+  padding: 10rpx 0;
+}
+picker {
+  margin:10rpx;
+font-size:30rpx;
+}
+/*显示隐藏*/
+.bright789_view_hide{
+ display: none;
+}
+.bright789_view_show{
+ display: block;
+}
+.enblock {
+  font-size:30rpx;
+color:white;
+background:#fe3131;
+text-align:center;
+padding:20rpx 0;
+border-radius:10rpx;
+}
+.Mine_hide {
+  display: none;
+}
+.Mine_block {
+  display: block;
+}

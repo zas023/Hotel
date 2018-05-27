@@ -1,0 +1,95 @@
+<view class="container container1">
+  <!--轮播图-->
+  <swiper class="swiper" indicator-dots="true" autoplay="true" interval="2000" duration="1000" circular="true">
+  <block wx:for="{{room.imgs}}" wx:key="itemId">
+    <swiper-item>
+      <image src="{{item}}" class="slide-image"/>
+    </swiper-item>
+  </block>
+  </swiper>
+  <view class="info">
+    <view class="left">
+      <view class="left_name">{{room.name}}</view>
+    </view>
+    <view class="right">
+      <view class="right_price">¥{{room.price}}</view>
+    </view>
+  </view>
+  <view class="hotel_bq">
+    <view class="clean">
+      <view class="clean_left inlineblock">推荐<span class="spaninfo">{{room.is_tj == 1 ? "是" : "否"}}</span></view>
+      <view class="clean_right inlineblock">营业<span class="spaninfo">{{room.is_state == 1 ? "是" : "否"}}</span></view>
+    </view>
+    <view class="clean">
+      <view class="clean_left inlineblock">wifi<span class="spaninfo">{{room.is_wifi == 1 ? "有" : "否"}}</span></view>
+      <view class="clean_right inlineblock">窗户<span class="spaninfo">{{room.is_window == 1 ? "有" : "否"}}</span></view>
+    </view>
+    <view class="clean">
+      <view class="clean_left inlineblock">面积<span class="spaninfo">{{room.area}}㎡</span></view>
+    </view>
+    <view class="clean">
+      <view class="clean_left inlineblock">剩余数量<span class="spaninfo">{{room.left_num}}</span></view>
+      <view class="clean_right inlineblock">可住人数<span class="spaninfo">{{room.live}}</span></view>
+    </view>
+    <view class="clean">
+      <view class="clean_left inlineblock">房间总数<span class="spaninfo">{{room.total_num}}</span></view>
+    </view>
+  </view>
+  <view class="enblock {{showMine?'Mine_hide':'Mine_show'}}" bindtap="changeMine">
+    {{showView?'立即预定':'立即预定'}}
+  </view>
+  <view class="{{showView?'bright789_view_hide':'bright789_view_show'}}">
+    <form bindsubmit="formSubmit">
+    <!-- 单行输入框 -->
+    <view class="predetail">
+      <view class="pre_input">
+        <input name="name" placeholder="请输入您的姓名" bindblur="InputEvent" style="color:gray;padding:6rpx 0;"/>
+      </view>
+    </view>
+    <!-- 单行输入框 -->
+    <view class="predetail">
+      <view class="pre_input">
+        <input name="phone" placeholder="请输入您的联系方式" bindblur="InputEvent" style="color:gray;padding:6rpx 0;"/>
+      </view>
+    </view>
+    <!-- 时间选择 -->
+    <view class="predetail">
+      <view class="pre_input">
+        <picker mode="date" name="kdate" value="{{date}}" start="2017-07-01" end="2040-09-01" bindchange="bindDateChange">
+          <view class="section__title">入住时间:<text>{{date}}</text></view>
+        </picker>
+      </view>
+    </view>
+    <!-- 时间选择 -->
+    <view class="predetail">
+      <view class="pre_input">
+        <picker mode="date" name="jdate" value="{{date1}}" start="2017-07-01" end="2040-09-01" bindchange="bindDateChange1">
+          <view class="section__title">退房时间:<text>{{date1}}</text></view>
+        </picker>
+      </view>
+    </view>
+    <!--房间数量选择-->
+    <view class="predetail">
+      <view class="pre_input">
+        <picker bindchange="bindPickerChange" value="{{array[index]}}" range="{{array}}" name="num">
+          <view class="picker">
+            房间数：{{array[index]}}
+          </view>
+        </picker>
+      </view>
+    </view>
+    <view class="tx">
+        温馨提醒：订单一经预订，不可取消或变更，如未能按约入住，您的预约房费将不予退还
+    </view>
+    <button form-type="submit" style="margin-bottom: 20rpx;">立即预订</button>
+    </form>  
+  </view>
+  <!--遮罩层-->
+  <view class="commodity_screen" bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
+  <!--弹出层-->
+  <view animation="{{animationData}}" class="commodity_attr_box" wx:if="{{showModalStatus}}">
+    <view class="total_price">总价钱：¥{{totalPrice}}</view>
+    <button class="button_pay">立即支付</button>
+  </view>
+  
+</view>

@@ -1,0 +1,190 @@
+/*轮播图*/
+.swiper {
+   width: 100%;
+   height: 200px;
+ }
+ .swiper image {
+   width: 100%;
+   height: 100%;
+   display: inline-block;
+ }
+ /*精选推荐*/
+ .font_style {
+  color: gray;
+  font-size: 30rpx;
+  font-weight: bolder;
+}
+.xueyuan_top_left {
+  float: left;
+  color: gray;
+  font-size: 30rpx;
+  font-weight: bloder;
+  border-left: 6rpx solid #d81e06;
+}
+.xueyuan_top_right {
+  float: right;
+  color: gray;
+  font-size: 30rpx;
+  font-weight: bloder;
+}
+ .rqxm {
+  width: 95%;
+  margin: 40rpx auto;
+  font-size: 0;
+}
+.title {
+  overflow: hidden;
+}
+.rqxm_list {
+  width: 48%;
+  display: inline-block;
+  margin: 10rpx 1%;
+}
+.img {
+  width: 100%;
+  margin-top: 20rpx;
+}
+image {
+  height: 220rpx;
+  width: 100%;
+}
+.introduce {
+  width: 100%;
+  text-align: center;
+  font-size: 30rpx;
+  background: #d81e06;
+  color: white;
+  padding: 15rpx 0;
+}
+/*选项卡*/
+.navbar{  
+  flex: none;  
+  display: flex;  
+  background: #fff;  
+}  
+.navbar .item{  
+  position: relative;  
+  flex: auto;  
+  text-align: center;  
+  line-height: 80rpx;  
+  color: #fe3131;
+  font-size: 30rpx;
+  font-weight: bolder;
+}
+.navbar .item.active{  
+  color: #fe3131;  
+}  
+.navbar .item.active:after{  
+  content: "";  
+  display: block;  
+  position: absolute;  
+  bottom: 0;  
+  left: 0;  
+  right: 0;  
+  height: 4rpx;  
+  background: #FFCC00;  
+}  
+/*酒店简介功能介绍*/
+.nav_children image {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+}
+.nav_children text {
+  font-size: 30rpx;
+}
+.nav_list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 50rpx 0 40rpx;
+  border-bottom: 2rpx solid #e5e5e5;
+}
+.nav_children {
+  text-align: center;
+  width: 22%;
+  margin-bottom: 20rpx;
+}
+/*酒店信息简介*/
+.hotel_introduce {
+  width: 95%;
+  margin: 0 auto;
+  padding-bottom: 50rpx;
+}
+.hotel_name {
+  font-size: 38rpx;
+  font-weight: bolder;
+  text-align: center;
+  padding: 25rpx 0;
+}
+.hotel_address {
+  padding: 20rpx 0;
+  font-size: 30rpx;
+  font-weight: bolder;
+}
+.hotel_phone {
+  font-size: 30rpx;
+  font-weight: bolder;
+}
+.hotel_bq {
+  width: 100%;
+  margin: 20rpx auto;
+}
+.smallbq {
+  color:#fe3131;
+  font-weight: bolder;
+  padding-right: 8rpx;
+  font-size: 30rpx;
+}
+.time {
+  font-size: 30rpx;
+  font-weight: bolder;
+}
+.time1 {
+  margin-bottom: 20rpx;
+}
+/*评价*/
+.predetail {
+  width: 96%;
+  margin: 30rpx auto;
+  border: 1rpx solid lightgray;
+  color:gray;
+  font-size:30rpx;
+  border-radius:10rpx;
+}
+textarea {
+  margin: 10rpx;
+}
+.pre_input {
+  width: 100%;
+  color:gray;
+  padding: 20rpx 0;
+}
+.predetail1 {
+  width: 96%;
+  margin: 30rpx auto;
+  font-size:30rpx;
+}
+.evalue {
+  width: 96%;
+  margin: 0 auto;
+}
+.info_list {
+  padding: 10rpx 0;
+  font-size: 30rpx;
+  font-weight:bolder;
+}
+.pj {
+  color: #fe3131;
+  font-weight: bolder;
+  padding: 0 20rpx;
+}
+.info_info {
+  font-size: 30rpx;
+  color: gray;
+}
+.evalueinfo {
+  padding:10rpx 0;
+  border-bottom:1rpx solid lightgray;
+}

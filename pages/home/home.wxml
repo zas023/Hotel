@@ -1,0 +1,61 @@
+<!--pages/home/home.wxml-->
+<view class="container">
+  <!--精选推荐-->
+  <view class="rqxm">
+    <view class="title">
+      <text class="font_style xueyuan_top_left">精选推荐</text>
+      <text class="font_style xueyuan_top_right" bindtap="go_book">更多 ></text>
+    </view>
+    <view class="rqxm_content">
+      <view class="rqxm_list" wx:for="{{rooms}}" data-id="{{item.objectId}}" bindtap="go_roomdetail" 
+      wx:if="{{item.is_tj}}">
+        <view class="img">
+          <image src="{{item.imgs[0]}}"></image>
+        </view>
+        <view class="introduce">
+          <text>{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+ <!--酒店列表-->
+  <view class="rqxm">
+    <view class="title">
+      <text class="font_style xueyuan_top_left">酒店列表</text>
+      <text class="font_style xueyuan_top_right" bindtap="go_book">更多 ></text>
+    </view>
+    <view class="rqxm_content">
+      <view class="rqxm_list" wx:for="{{hotels}}" data-id="{{item.objectId}}" bindtap="go_roomdetail" >
+        <view class="img">
+          <image src="{{item.imgs[0]}}"></image>
+        </view>
+        <view class="introduce">
+          <text>{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 酒店简介
+  <view class="hotel_introduce">
+    <view class="hotel_name">{{hotelinfo.name}}</view>
+    <view class="text">{{hotelinfo.intro}}</view>
+    <map id="map" longitude="106.4681300000" latitude="29.5648400000" scale="14" markers="{{markers}}" bindmarkertap="markertap" bindregionchange="regionchange" show-location style="margin:40rpx auto;">
+    </map>
+    <view class="hotel_bq">
+      <text class="smallbq">{{hotelinfo.is_show == 1 ? "正常营业" : ""}}</text>
+      <text class="smallbq">{{hotelinfo.is_luggage == 1 ? "可寄放行李" : ""}}</text>
+      <text class="smallbq">{{hotelinfo.is_parking == 1 ? "提供停车服务" : ""}}</text>
+    </view>
+    <view class="hotel_bq">
+      <text class="smallbq">{{hotelinfo.is_restaurant == 1 ? "提供餐厅" : ""}}</text>
+      <text class="smallbq">{{hotelinfo.is_wifi == 1 ? "无线服务" : ""}}</text>
+    </view>
+    <view class="time time1">开业时间：{{opentime}}</view>
+    <view class="time">装修时间：{{detime}}</view>
+    <view class="hotel_address" bindtap="bindgothere">地址：{{hotelinfo.province}}{{hotelinfo.city}}{{hotelinfo.district}}{{hotelinfo.address}}
+      <image src="../../../images/map.png" style="width: 30rpx;height: 30rpx;"></image>
+    </view>
+    <view class="hotel_phone">订房热线：{{hotelinfo.phone}}</view>
+  </view> -->
+</view>
