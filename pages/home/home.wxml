@@ -1,5 +1,15 @@
 <!--pages/home/home.wxml-->
 <view class="container">
+  <!--轮播图-->
+  <swiper class="swiper" indicator-dots="true" autoplay="true" interval="2000" duration="1000" circular="true">
+    <view class="hotel_name" style="color: white;position: absolute;bottom: 10rpx;left: 0;z-index: 10;margin-left:10rpx">{{hotels[0].name}}</view>
+    <block wx:for="{{hotels[0].imgs}}">
+      <swiper-item>
+        <image src="{{item}}" class="slide-image" />
+      </swiper-item>
+    </block>
+  </swiper>
+
   <!--精选推荐-->
   <view class="rqxm">
     <view class="title">
@@ -7,8 +17,7 @@
       <text class="font_style xueyuan_top_right" bindtap="go_book">更多 ></text>
     </view>
     <view class="rqxm_content">
-      <view class="rqxm_list" wx:for="{{rooms}}" data-id="{{item.objectId}}" bindtap="go_roomdetail" 
-      wx:if="{{item.is_tj}}">
+      <view class="rqxm_list" wx:for="{{rooms}}" data-id="{{item.objectId}}" bindtap="go_roomdetail" wx:if="{{item.is_tj}}">
         <view class="img">
           <image src="{{item.imgs[0]}}"></image>
         </view>
@@ -19,8 +28,8 @@
     </view>
   </view>
 
- <!--酒店列表-->
-  <view class="rqxm">
+  <!--酒店列表-->
+  <!-- <view class="rqxm">
     <view class="title">
       <text class="font_style xueyuan_top_left">酒店列表</text>
       <text class="font_style xueyuan_top_right" bindtap="go_book">更多 ></text>
@@ -35,9 +44,9 @@
         </view>
       </view>
     </view>
-  </view>
+  </view> -->
 
-   <!-- 酒店简介 -->
+  <!-- 酒店简介 -->
   <view class="hotel_introduce">
     <view class="hotel_name">{{hotels[0].name}}</view>
     <view class="text">{{hotels[0].intro}}</view>
@@ -47,8 +56,6 @@
       <text class="smallbq">{{hotels[0].is_show == 1 ? "正常营业" : ""}}</text>
       <text class="smallbq">{{hotels[0].is_luggage == 1 ? "可寄放行李" : ""}}</text>
       <text class="smallbq">{{hotels[0].is_parking == 1 ? "提供停车服务" : ""}}</text>
-    </view>
-    <view class="hotel_bq">
       <!-- <text class="smallbq">{{hotels[0].is_restaurant == 1 ? "提供餐厅" : ""}}</text> -->
       <text class="smallbq">{{hotels[0].is_wifi == 1 ? "无线服务" : ""}}</text>
     </view>
@@ -58,5 +65,5 @@
       <image src="../../../images/map.png" style="width: 30rpx;height: 30rpx;"></image>
     </view>
     <view class="hotel_phone">订房热线：{{hotels[0].phone}}</view>
-  </view> 
+  </view>
 </view>
