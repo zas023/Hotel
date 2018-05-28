@@ -23,7 +23,6 @@ Page({
     // 查询所有数据
     query.find({
       success: function (results) {
-        console.log(results)
         that.setData({
           orders: results
         })

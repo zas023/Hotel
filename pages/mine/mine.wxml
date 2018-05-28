@@ -3,7 +3,7 @@
     <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
     <view class="info">
       <text class="name">{{userInfo.nickName}}</text>
-       <text class="level">积分：{{curUser.score}}</text> 
+      <text class="level">积分：{{curUser.score}}</text> 
     </view>
   </view>
 

@@ -1,6 +1,6 @@
 // pages/mine/mine.js
+const app = getApp();
 var Bmob = require('../../utils/bmob.js');
-var app = getApp();
 
 Page({
 
@@ -9,23 +9,29 @@ Page({
    */
   data: {
     userInfo: {},
-    curUser: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    curUser: {}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that = this;  
+    var that = this;
+    
+    //是否有用户信息
+    var info = wx.getStorageSync('userInfo');
+    if (info) {
+      that.setData({
+        userInfo: app.globalData.userInfo
+      })
+    }
+
     //用当前用户判断是否已经登陆
     var currentUser = Bmob.User.current();
     //已经登陆则直接跳转
     if (currentUser) {
       that.setData({
-        curUser:currentUser,
-        userInfo: app.globalData.userInfo
+        curUser:currentUser
       })
       return;
     }else{
