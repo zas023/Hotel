@@ -1,24 +1,24 @@
 <view class="container">
     <view class="orders">
-        <navigator url="../orderDetail/orderDetail?id={{item.id}}" class="order" wx:for="{{orderList}}" wx:key="{{item.id}}">
+        <navigator url="../orderDetail/orderDetail?id={{item.objectId}}" class="order" wx:for="{{orders}}" wx:key="{{item.objectId}}">
             <view class="h">
-                <view class="l">订单编号：{{item.order_sn}}</view>
-                <view class="r">{{item.order_status_text}}</view>
+                <view class="l">订单编号：{{item.objectId}}</view>
+                <view class="r">{{item.status}}</view>
             </view>
-            <view class="goods" wx:for="{{item.goodsList}}" wx:key="{{gitem.id}}" wx:for-item="gitem">
+            <view class="goods">
                 <view class="img">
-                    <image src="{{gitem.list_pic_url}}"></image>
+                    <image src="{{item.room.imgs[0]}}"></image>
                 </view>
                 <view class="info">
-                    <text class="name">{{gitem.goods_name}}</text>
-                    <text class="number">共{{gitem.number}}件商品</text>
+                    <text class="name">{{item.room.name}}</text>
+                    <text class="number">共{{item.day_num}}天</text>
                 </view>
                 <view class="status"></view>
             </view>
             <view class="b">
-                <view class="l">实付：￥{{item.actual_price}}</view>
+                <view class="l">实付：￥{{item.price}}</view>
                 <view class="r">
-                    <button class="btn" data-order-index="{{index}}" catchtap="payOrder" wx:if="{{item.handleOption.pay}}">去付款</button>
+                    <button class="btn" data-order-index="{{index}}" catchtap="payOrder" wx:if="{{item.status}}">去付款</button>
                 </view>
             </view>
         </navigator>

@@ -1,18 +1,37 @@
 // pages/mine/order/order.js
+var Bmob = require('../../../utils/bmob.js');
+var app = getApp();
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-  
+    orders:[]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    var that=this;
+    var Order = Bmob.Object.extend("Order");
+    var query = new Bmob.Query(Order);
+    query.equalTo("userId", Bmob.User.current().id);
+    query.include("room");
+    // 查询所有数据
+    query.find({
+      success: function (results) {
+        console.log(results)
+        that.setData({
+          orders: results
+        })
+      },
+      error: function (error) {
+        console.log("查询失败: " + error.code + " " + error.message);
+      }
+    });
   },
 
   /**

@@ -9,11 +9,11 @@ Page({
    */
   data: {
     room: '',
-    date: '2018-05-27',
-    date1: '2018-05-28',
-    array: [1, 2, 3, 4, 5, 6, 7, 8],
+    date: '',
+    date1: '',
+    array: [],
     index: 0,
-    openid: "",
+    totalPrice: "",
     showView: true,
     showMine: false
   },
@@ -27,9 +27,11 @@ Page({
     var query = new Bmob.Query(Room);
     query.get(options.id, {
       success: function (result) {
+        var n = result.get("left_num");
         // 查询成功
         that.setData({
-          room: result
+          room: result,
+          array: Array.from({ length: n }, (v, k) => k + 1),
         })
       },
       error: function (object, error) {
@@ -120,168 +122,236 @@ Page({
   // 提交预订信息
   formSubmit: function (e) {
     var that = this;
-    app.getUserInfo();
-    console.log(b)
     var a = e.detail.value;
-    // 判断输入项是否为空
-    console.log(a.num);
-    console.log(snum);
-    // var nima = parseInt(a.num);
-    if (a.name != "" && a.phone != "" && a.num <= snum) {
-      wx.request({
-        url: con.set_order,
-        data: {
-          wxappid: con.wyy_user_wxappid,
-          // preid: id,
-          name: a.name,
-          openid: app.globalData.openid,
-          phone: a.phone,
-          startdate: a.kdate,
-          enddate: a.jdate,
-          roomnum: a.num,
-          roomname: b,
-          price: c,
-          id: d
-        },
-        method: 'POST',
-        header: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        success(res) {
-          var zhifu = res.data;
-          console.log(res.data);
-          stat = res.data.status;
-          msg = res.data.errMsg;
-          console.log(msg)
-          // 计算天数差
-          var date1 = a.kdate;
-          var date2 = a.jdate;
-          var Num = a.num;
-          var aDate, oDate1, oDate2, iDays
-          aDate = date1.split("-")
-          oDate1 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0])    //转换为12-18-2002格式  
-          aDate = date2.split("-")
-          oDate2 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0])
-          iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24)    //把相差的毫秒数转换为天数  
-          // return iDays 
-          console.log(iDays);
-          var totalNum = iDays * Num;
-          console.log(totalNum)
-          // 总价钱
-          var totalPrice = totalNum * c;
-          console.log(totalPrice)
-          that.setData({
-            totalPrice: totalPrice
+    var userId = Bmob.User.current().id;
+
+    if (that.data.room == '' && userId==null){
+      return;
+    }
+
+    // 计算天数差
+    var date1 = a.kdate;
+    var date2 = a.jdate;
+    var Num = a.num;
+    var aDate, oDate1, oDate2, iDays
+    aDate = date1.split("-")
+    oDate1 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0])    //转换为12-18-2002格式  
+    aDate = date2.split("-")
+    oDate2 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0])
+    iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24)    //把相差的毫秒数转换为天数  
+    // return iDays 
+    console.log(iDays);
+    var totalNum = iDays * Num;
+    // 总价钱
+    var total = totalNum * that.data.room.get("price");
+    that.setData({
+      totalPrice: total
+    })
+    if (a.name != "" && a.phone != "" && totalNum > 0) {
+      var Order = Bmob.Object.extend("Order");
+      var order = new Order();
+      order.set("userId", userId);
+      order.set("room_num", a.num);
+      order.set("day_num", iDays);
+      order.set("name", a.name);
+      order.set("phone", a.phone);
+      order.set("startdate", that.strToData(a.kdate));
+      order.set("enddate", that.strToData(a.jdate));
+      order.set("room", that.data.room);
+      order.set("price", total);
+      order.set("status","待支付");
+      order.save(null, {
+        success: function (result) {
+          console.log("创建成功, objectId:" + result.id);
+          wx.showToast({
+            title: "预约成功",
+            icon: 'success',
+            duration: 1000,
+            mask: true
           })
-          if (stat == 1) {
-            // 调用支付
-            wx.requestPayment({
-              'timeStamp': zhifu.timeStamp,
-              'nonceStr': zhifu.nonceStr,
-              'package': zhifu.package,
-              'signType': zhifu.signType,
-              'paySign': zhifu.paySign,
-              'success': function (res1) {
-                console.log(zhifu.out_trade_no)
-                console.log(res1)
-                if (res1.errMsg == "requestPayment:ok") {
-                  console.log(con.wyy_user_wxappid)
-                  wx.request({
-                    url: con.order_success,
-                    data: {
-                      wxappid: con.wyy_user_wxappid,
-                      out_trade_no: zhifu.out_trade_no,
-                      id: d,
-                      orderNum: a.num
-                    },
-                    method: 'GET',
-                    header: {
-                      "Content-Type": 'application/json'
-                    },
-                    success: function (res1) {
-                      console.log(zhifu.out_trade_no)
-                      console.log(res1)
-                      that.setData({
-
-                      })
-                      console.log(res1.data);
-                      if (res1.data.status == 1) {
-                        wx.showToast({
-                          title: res1.data.errMsg,
-                          icon: 'success',
-                          duration: 1000,
-                          mask: true
-                        })
-                        setTimeout(function () {
-                          wx.switchTab({
-                            url: '../../../mine/mine'
-                          })
-                        }, 2000)
-                      } else {
-                        wx.showToast({
-                          title: '支付失败',
-                          icon: 'loading',
-                          duration: 2000,
-                          mask: true
-                        })
-                      }
-                    }
-                  });
-                } else {
-                  wx.showToast({
-                    title: '支付失败',
-                    icon: 'loading',
-                    duration: 2000,
-                    mask: true
-                  })
-                }
-
-              },
-              'fail': function (res) {
-                console.log(res)
-                wx.showToast({
-                  title: '支付失败',
-                  icon: 'loading',
-                  duration: 1000,
-                  mask: true
-                })
-              },
-              'complete': function (res) {
-
-              }
+          setTimeout(function () {
+            wx.switchTab({
+              url: '../../mine/mine'
             })
-          }
-
-          else {
-            wx.showToast({
-              title: msg,
-              icon: 'loading',
-              duration: 2000,
-              mask: true
-            })
-          }
+          }, 2000)
+        },
+        error: function (result, error) {
+          console.log(error)
+          // 添加失败
+          wx.showToast({
+            title: '提交失败',
+            icon: 'loading',
+            duration: 2000,
+            mask: true
+          })
         }
-      })
-      that.showModal();
+      });
+
+      //   wx.request({
+      //     url: con.set_order,
+      //     data: {
+      //       wxappid: con.wyy_user_wxappid,
+      //       // preid: id,
+      //       name: a.name,
+      //       openid: app.globalData.openid,
+      //       phone: a.phone,
+      //       startdate: a.kdate,
+      //       enddate: a.jdate,
+      //       roomnum: a.num,
+      //       roomname: b,
+      //       price: c,
+      //       id: d
+      //     },
+      //     method: 'POST',
+      //     header: {
+      //       "Content-Type": "application/x-www-form-urlencoded"
+      //     },
+      //     success(res) {
+      //       var zhifu = res.data;
+      //       console.log(res.data);
+      //       stat = res.data.status;
+      //       msg = res.data.errMsg;
+      //       console.log(msg)
+      //       // 计算天数差
+      //       var date1 = a.kdate;
+      //       var date2 = a.jdate;
+      //       var Num = a.num;
+      //       var aDate, oDate1, oDate2, iDays
+      //       aDate = date1.split("-")
+      //       oDate1 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0])    //转换为12-18-2002格式  
+      //       aDate = date2.split("-")
+      //       oDate2 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0])
+      //       iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24)    //把相差的毫秒数转换为天数  
+      //       // return iDays 
+      //       console.log(iDays);
+      //       var totalNum = iDays * Num;
+      //       console.log(totalNum)
+      //       // 总价钱
+      //       var totalPrice = totalNum * c;
+      //       console.log(totalPrice)
+      //       that.setData({
+      //         totalPrice: totalPrice
+      //       })
+      //       if (stat == 1) {
+      //         // 调用支付
+      //         wx.requestPayment({
+      //           'timeStamp': zhifu.timeStamp,
+      //           'nonceStr': zhifu.nonceStr,
+      //           'package': zhifu.package,
+      //           'signType': zhifu.signType,
+      //           'paySign': zhifu.paySign,
+      //           'success': function (res1) {
+      //             console.log(zhifu.out_trade_no)
+      //             console.log(res1)
+      //             if (res1.errMsg == "requestPayment:ok") {
+      //               console.log(con.wyy_user_wxappid)
+      //               wx.request({
+      //                 url: con.order_success,
+      //                 data: {
+      //                   wxappid: con.wyy_user_wxappid,
+      //                   out_trade_no: zhifu.out_trade_no,
+      //                   id: d,
+      //                   orderNum: a.num
+      //                 },
+      //                 method: 'GET',
+      //                 header: {
+      //                   "Content-Type": 'application/json'
+      //                 },
+      //                 success: function (res1) {
+      //                   console.log(zhifu.out_trade_no)
+      //                   console.log(res1)
+      //                   that.setData({
+
+      //                   })
+      //                   console.log(res1.data);
+      //                   if (res1.data.status == 1) {
+      //                     wx.showToast({
+      //                       title: res1.data.errMsg,
+      //                       icon: 'success',
+      //                       duration: 1000,
+      //                       mask: true
+      //                     })
+      //                     setTimeout(function () {
+      //                       wx.switchTab({
+      //                         url: '../../../mine/mine'
+      //                       })
+      //                     }, 2000)
+      //                   } else {
+      //                     wx.showToast({
+      //                       title: '支付失败',
+      //                       icon: 'loading',
+      //                       duration: 2000,
+      //                       mask: true
+      //                     })
+      //                   }
+      //                 }
+      //               });
+      //             } else {
+      //               wx.showToast({
+      //                 title: '支付失败',
+      //                 icon: 'loading',
+      //                 duration: 2000,
+      //                 mask: true
+      //               })
+      //             }
+
+      //           },
+      //           'fail': function (res) {
+      //             console.log(res)
+      //             wx.showToast({
+      //               title: '支付失败',
+      //               icon: 'loading',
+      //               duration: 1000,
+      //               mask: true
+      //             })
+      //           },
+      //           'complete': function (res) {
+
+      //           }
+      //         })
+      //       }
+
+      //       else {
+      //         wx.showToast({
+      //           title: msg,
+      //           icon: 'loading',
+      //           duration: 2000,
+      //           mask: true
+      //         })
+      //       }
+      //     }
+      //   })
+      //   that.showModal();
+      // } else {
+      //   wx.showToast({
+      //     title: '提交失败，您的信息不全或房间数超出！',
+      //     icon: 'loading',
+      //     duration: 2000,
+      //     mask: true
+      //   })
     } else {
       wx.showToast({
-        title: '提交失败，您的信息不全或房间数超出！',
+        title: '您的信息不正确',
         icon: 'loading',
         duration: 2000,
         mask: true
       })
     }
+  },
 
-    console.log(a.kdate);
-    console.log(a.jdate);
-
-
+  strToData: function(dateString) { 
+    if(dateString) {
+      var arr1 = dateString.split(" ");
+      var sdate = arr1[0].split('-');
+      var date = new Date(sdate[0], sdate[1] - 1, sdate[2]);
+      return date;
+    }
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+
   }
 })
