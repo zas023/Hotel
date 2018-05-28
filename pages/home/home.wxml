@@ -12,7 +12,7 @@
   <!--精选房间-->
   <view class="rqxm">
     <view class="title">
-      <text class="font_style xueyuan_top_left">精选房间</text>
+      <text class="font_style xueyuan_top_left"> 精选房间</text>
       <text class="font_style xueyuan_top_right" bindtap="go_book">更多 ></text>
     </view>
     <view class="rqxm_content">
@@ -30,7 +30,7 @@
   <!-- 精选酒店 -->
   <view class="rqxm">
   <view class="title">
-      <text class="font_style xueyuan_top_left">精选酒店</text>
+      <text class="font_style xueyuan_top_left"> 精选酒店</text>
       <text class="font_style xueyuan_top_right" bindtap="go_book">更多 ></text>
     </view>
     </view>

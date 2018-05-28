@@ -3,7 +3,8 @@
     "pages/home/home",
     "pages/book/book",
     "pages/mine/mine",
-    "pages/book/room/room"
+    "pages/book/room/room",
+    "pages/book/order/order"
   ],
   "window": {
     "backgroundTextStyle": "light",
