@@ -1,4 +1,4 @@
-// pages/book/order/order.js
+// pages/mine/order/order.js
 Page({
 
   /**

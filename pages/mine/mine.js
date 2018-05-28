@@ -9,6 +9,7 @@ Page({
    */
   data: {
     userInfo: {},
+    curUser: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
@@ -22,74 +23,82 @@ Page({
     var currentUser = Bmob.User.current();
     //已经登陆则直接跳转
     if (currentUser) {
+      that.setData({
+        curUser:currentUser,
+        userInfo: app.globalData.userInfo
+      })
       return;
+    }else{
+      that.signupAndLogin();
     }
-    // 查看是否授权
-    wx.getSetting({
+    
+  },
+
+  //微信一键登陆注册
+  signupAndLogin:function(){
+    wx.login({
       success: function (res) {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-          wx.getUserInfo({
-            success: function (res) {
-              console.log(res.userInfo)
-              that.setData({
-                userInfo: res.userInfo,
-                hasUserInfo: true
-              });
+        if (res.code) {
+          Bmob.User.requestOpenId(res.code, {
+            success: function (userData) {
+              wx.getUserInfo({
+                success: function (result) {
+                  var userInfo = result.userInfo
+                  var nickName = userInfo.nickName
+                  var openId = userData.openid;
+
+                  var User = Bmob.Object.extend("_User");
+                  var query = new Bmob.Query(User);
+                  query.limit(1);
+                  query.equalTo("openId", openId);
+                  query.find({
+                    success: function (results) {
+                      if (results.length == 1) { //登陆
+                        Bmob.User.logIn(results[0].get("username"), query._where.openId, {
+                          success: function (res) {
+                            that.setData({
+                              curUser: res
+                            })
+                          },
+                          error: function (user, error) {
+                            // The login failed. Check error to see why.
+                          }
+                        });
+                      } else { //注册
+                        var user = new Bmob.User();
+                        user.set("username", nickName);
+                        user.set("password", query._where.openId);
+                        user.set("openId", query._where.openId);
+                        user.set("userData", userData);
+                        user.set("score", 10);
+                        user.signUp(null, {
+                          success: function (res) {
+                            console.log("注册成功!");
+                          },
+                          error: function (userData, error) {
+                            console.log(error)
+                          }
+                        });
+                      }
+                    },
+                    error: function (error) {
+                      console.log("查询失败: " + error.code + " " + error.message);
+                    }
+                  });
+                }
+              })
+            },
+            error: function (error) {
+              // Show the error message somewhere
+              console.log("Error: " + error.code + " " + error.message);
             }
-          })
+          });
+
+        } else {
+          console.log('获取用户登录态失败！' + res.errMsg)
         }
       }
-    })
-
-    var openId = wx.getStorageSync('openid');
-    //传参数金额，名称，描述,openid
-    Bmob.Pay.wechatPay(0.01, '哇哈哈1瓶', '哇哈哈饮料，杭州生产', openId).then(function (resp) {
-      console.log(resp);
-
-      that.setData({
-        loading: true,
-        dataInfo: resp
-      })
-
-      //服务端返回成功
-      var timeStamp = resp.timestamp,
-        nonceStr = resp.noncestr,
-        packages = resp.package,
-        orderId = resp.out_trade_no,//订单号，如需保存请建表保存。
-        sign = resp.sign;
-
-      //打印订单号
-      console.log(orderId);
-
-      //发起支付
-      wx.requestPayment({
-        'timeStamp': timeStamp,
-        'nonceStr': nonceStr,
-        'package': packages,
-        'signType': 'MD5',
-        'paySign': sign,
-        'success': function (res) {
-          //付款成功,这里可以写你的业务代码
-          console.log(res);
-        },
-        'fail': function (res) {
-          //付款失败
-          console.log('付款失败');
-          console.log(res);
-        }
-      })
-
-    }, function (err) {
-      console.log('服务端返回失败');
-      console.log(err);
     });
-  },
-  //响应点击头像事件
-  bindMy: function () {
-    wx.navigateTo({
-      url: '../mySetting/mySetting',
-    })
-  },
+  }
 
 })

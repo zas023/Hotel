@@ -4,7 +4,7 @@
     "pages/book/book",
     "pages/mine/mine",
     "pages/book/room/room",
-    "pages/book/order/order"
+    "pages/mine/order/order"
   ],
   "window": {
     "backgroundTextStyle": "light",
