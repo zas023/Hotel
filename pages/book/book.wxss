@@ -1,11 +1,65 @@
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  color: #939393;
+}
+.nav_left{
+  display: inline-block;
+  width: 25%;
+  height: 100%;
+  text-align: center;
+}
+.nav_left .nav_left_items{
+  height: 30px;
+  line-height: 30px;
+  padding: 6px 0;
+  border-bottom: 1px solid #dedede;
+  font-size: 14px;
+}
+.nav_left .nav_left_items.active{
+  background: #fff;
+  border-left: 6rpx solid #d81e06;
+}
+.nav_right{
+  position: absolute;
+  top: 0;
+  right: 0;
+  flex: 1;
+  width: 75%;
+  height: 100%;
+  padding: 10px;
+  background: #fff;
+  box-sizing: border-box;
+}
+.nav_right .nav_right_items{
+  float: left;
+  width: 33.33%;
+  height: 80px;
+  text-align: center;
+}
+.nav_right .nav_right_items image{
+  width: 50px;
+  height: 30px;
+}
+.nav_right .nav_right_items text{
+  display: block;
+  margin-top: 5px;
+  font-size: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .room {
-  width: 96%;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   justify-content: space-around;
-  height: 200rpx;
-  margin-top: 30rpx;
-  border-bottom: 5rpx solid gainsboro;
+  height: 150rpx;
+  margin-top: 15rpx;
+  border-bottom: 3rpx solid gainsboro;
 }
 .room_img {
   width: 24%;
@@ -27,24 +81,24 @@ image {
 }
 button {
   background: #fe3131;
-  width: 150rpx;
-  height: 50rpx;
+  width: 125rpx;
+  height: 45rpx;
   line-height: 50rpx;
-  font-size: 30rpx;
+  font-size: 25rpx;
   color: white;
-  margin-top: 30rpx;
+  margin-top: 20rpx;
 }
 .room_infoname {
   font-weight: bold;
-  margin-top: 20rpx;
+  margin-top: 10rpx;
 }
 .room_infolabel {
   color: gray;
   font-size: 25rpx;
-  margin: 40rpx 8rpx 0;
+  margin: 25rpx 8rpx 0;
   display: inline-block;
 }
 .price {
   color: #fe3131;
-  margin-top: 20rpx;
+  margin-top: 10rpx;
 }

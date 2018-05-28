@@ -2,7 +2,6 @@
 <view class="container">
   <!--轮播图-->
   <swiper class="swiper" indicator-dots="true" autoplay="true" interval="2000" duration="1000" circular="true">
-    <!-- <view class="hotel_name" style="color: white;position: absolute;bottom: 10rpx;left: 0;z-index: 10;margin-left:10rpx">{{hotels[0].name}}</view> -->
     <block wx:for="{{hotels[0].imgs}}" wx:key="itemId">
       <swiper-item>
         <image src="{{item}}" class="slide-image" />
@@ -10,10 +9,10 @@
     </block>
   </swiper>
 
-  <!--精选推荐-->
+  <!--精选房间-->
   <view class="rqxm">
     <view class="title">
-      <text class="font_style xueyuan_top_left">精选推荐</text>
+      <text class="font_style xueyuan_top_left">精选房间</text>
       <text class="font_style xueyuan_top_right" bindtap="go_book">更多 ></text>
     </view>
     <view class="rqxm_content">
@@ -28,25 +27,13 @@
     </view>
   </view>
 
-  <!--酒店列表-->
-  <!-- <view class="rqxm">
-    <view class="title">
-      <text class="font_style xueyuan_top_left">酒店列表</text>
+  <!-- 精选酒店 -->
+  <view class="rqxm">
+  <view class="title">
+      <text class="font_style xueyuan_top_left">精选酒店</text>
       <text class="font_style xueyuan_top_right" bindtap="go_book">更多 ></text>
     </view>
-    <view class="rqxm_content">
-      <view class="rqxm_list" wx:for="{{hotels}}" data-id="{{item.objectId}}" bindtap="go_roomdetail" >
-        <view class="img">
-          <image src="{{item.imgs[0]}}"></image>
-        </view>
-        <view class="introduce">
-          <text>{{item.name}}</text>
-        </view>
-      </view>
     </view>
-  </view> -->
-
-  <!-- 酒店简介 -->
   <view class="hotel_introduce">
     <view class="hotel_name">{{hotels[0].name}}</view>
     <view class="text">{{hotels[0].intro}}</view>
@@ -56,7 +43,6 @@
       <text class="smallbq">{{hotels[0].is_show == 1 ? "正常营业" : ""}}</text>
       <text class="smallbq">{{hotels[0].is_luggage == 1 ? "可寄放行李" : ""}}</text>
       <text class="smallbq">{{hotels[0].is_parking == 1 ? "提供停车服务" : ""}}</text>
-      <!-- <text class="smallbq">{{hotels[0].is_restaurant == 1 ? "提供餐厅" : ""}}</text> -->
       <text class="smallbq">{{hotels[0].is_wifi == 1 ? "无线服务" : ""}}</text>
     </view>
     <view class="time time1">开业时间：{{opentime}}</view>

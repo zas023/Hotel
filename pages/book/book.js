@@ -6,7 +6,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    rooms: []
+    hotels: [],
+    rooms: [],
+    curNavId: '',
+    curIndex: 0
   },
 
   /**
@@ -14,13 +17,27 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    var Room = Bmob.Object.extend("Room");
-    var query = new Bmob.Query(Room);
+    var Hotel = Bmob.Object.extend("Hotel");
+    var query = new Bmob.Query(Hotel);
     // 查询所有数据
     query.find({
       success: function (results) {
-        console.log("共查询到 " + results.length + " 条记录");
-        // 循环处理查询到的数据
+        that.setData({
+          hotels: results,
+          curNavId: results[0].id
+        })
+      },
+      error: function (error) {
+        console.log("查询失败: " + error.code + " " + error.message);
+      }
+    });
+    var Room = Bmob.Object.extend("Room");
+    // query.equalTo("hotel", this.data.curNav);
+    query = new Bmob.Query(Room);
+    // 查询所有数据
+    query.find({
+      success: function (results) {
+        console.log(results)
         that.setData({
           rooms: results
         })
@@ -31,9 +48,20 @@ Page({
     });
   },
 
+  //事件处理函数
+  switchRightTab: function (e) {
+    let id = e.target.dataset.id,
+    index = parseInt(e.target.dataset.index);
+    this.setData({
+      curNavId: id,
+      curIndex: index
+    })
+  },
+
   // 跳转订房详情
   go_roomdetail: function (e) {
     var id = e.currentTarget.dataset.id
+    console.log(id)
     wx.navigateTo({
       url: 'room/room?id=' + id,
     })

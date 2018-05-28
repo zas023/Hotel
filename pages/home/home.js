@@ -18,17 +18,21 @@ Page({
     query.find({
       success: function (results) {
         that.setData({
-          hotels: results,
-          markers: [{
-            iconPath: "../../../images/map.png",
-            id: 0,
-            latitude: results[0].get("latitude"),
-            longitude: results[0].get("longitude"),
-            title: results[0].name,
-            width: 30,
-            height: 30
-          }]
+          hotels: results
         })
+        if(results.length>0){
+          that.setData({
+            markers: [{
+              iconPath: "../../../images/map.png",
+              id: 0,
+              latitude: results[0].get("latitude"),
+              longitude: results[0].get("longitude"),
+              title: results[0].name,
+              width: 30,
+              height: 30
+            }]
+          })
+        }
       },
       error: function (error) {
         console.log("查询失败: " + error.code + " " + error.message);

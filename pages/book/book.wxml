@@ -1,21 +1,29 @@
 <view class="container">
+  <!--全部酒店  -->
+  <view class="nav_left">
+    <block wx:for="{{hotels}}" wx:key="itemId">
+      <view class="nav_left_items {{curNavId == item.objectId ? 'active' : ''}}" bindtap="switchRightTab" data-index="{{index}}" data-id="{{item.objectId}}">{{item.brief}}</view>
+    </block>
+  </view>
   <!--全部房型-->
-  <view class="room" wx:for="{{rooms}}" wx:key="itemId" data-id="{{item.objectId}}" bindtap="go_roomdetail">
-    <view class="room_img">
-      <image src="{{item.imgs[0]}}"></image>
-    </view>
-    <view class="room_info1">
-      <view class="room_infoname">{{item.name}}</view>
-      <view class="room_infolabel">
-        {{item.is_tj == 1 ? "推荐" : ""}}
-        {{item.is_state == 1 ? "正常营业" : ""}}
-        {{item.is_wifi == 1 ? "无线" : ""}}
-        {{item.is_window == 1 ? "有窗" : ""}}
-      </view>
-    </view>
-    <view class="room_info">
-      <view class="price">{{item.price}}元</view>
-      <button>预订</button>
-    </view>
+  <view class="nav_right">
+      <block wx:for="{{rooms}}" wx:key="itemId">
+            <view class="room" wx:if="{{item.hotel==curNavId}}" data-id="{{item.objectId}}" bindtap="go_roomdetail">
+              <view class="room_img">
+                <image src="{{item.imgs[0]}}"></image>
+              </view>
+              <view class="room_info1">
+                <view class="room_infoname">{{item.name}}</view>
+                <view class="room_infolabel">
+                  {{item.is_tj == 1 ? "推荐" : ""}} {{item.is_wifi == 1 ? "无线" : ""}} {{item.is_window == 1 ? "有窗" : ""}}
+                </view>
+              </view>
+              <view class="room_info">
+                <view class="price">{{item.price}}元</view>
+                <button>预订</button>
+              </view>
+            </view>
+      </block>
+    <!-- <view wx:else>暂无数据</view> -->
   </view>
 </view>
